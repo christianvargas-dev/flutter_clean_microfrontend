@@ -26,7 +26,7 @@ class QrScannerPlugin: FlutterPlugin, ActivityAware {
     qrScannerApiImpl?.setActivity(binding.activity) 
     binding.addActivityResultListener(qrScannerApiImpl!!)
 
-    Log.d("QrScannerPlugin", "✅ onAttachedToActivity llamado. Listener de actividad registrado correctamente.")
+    Log.d("QrScannerPlugin", " onAttachedToActivity llamado. Listener de actividad registrado correctamente.")
 }
 
     override fun onDetachedFromActivity() {

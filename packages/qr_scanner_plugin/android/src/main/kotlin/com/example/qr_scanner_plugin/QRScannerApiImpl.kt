@@ -15,12 +15,12 @@ class QRScannerApiImpl : QRScannerApi, PluginRegistry.ActivityResultListener {
     }
 
    override fun scanQRCode(callback: (Result<QRResult>) -> Unit) {
-    Log.d("QRScannerApiImpl", "🚀 Iniciando escaneo de código QR...")
+    Log.d("QRScannerApiImpl", " Iniciando escaneo de código QR...")
     
     val currentActivity = activity
     if (currentActivity == null) {
-        Log.e("QRScannerApiImpl", "❌ Actividad no disponible. No se puede iniciar el escaneo.")
-        callback(Result.failure(Exception("❌ Actividad no disponible en QRScannerApiImpl")))
+        Log.e("QRScannerApiImpl", "Actividad no disponible. No se puede iniciar el escaneo.")
+        callback(Result.failure(Exception(" Actividad no disponible en QRScannerApiImpl")))
         return
     }
 
@@ -37,13 +37,13 @@ class QRScannerApiImpl : QRScannerApi, PluginRegistry.ActivityResultListener {
     }
 
     val intent = options.createScanIntent(currentActivity)
-    Log.d("QRScannerApiImpl", "📸 Intent de escaneo creado. Lanzando cámara...")
+    Log.d("QRScannerApiImpl", " Intent de escaneo creado. Lanzando cámara...")
     
     try {
         currentActivity.startActivityForResult(intent, REQUEST_CODE_QR_SCAN)
-        Log.d("QRScannerApiImpl", "✅ Cámara lanzada con startActivityForResult.")
+        Log.d("QRScannerApiImpl", "Cámara lanzada con startActivityForResult.")
     } catch (e: Exception) {
-        Log.e("QRScannerApiImpl", "❌ Error al lanzar la cámara: ${e.localizedMessage}")
+        Log.e("QRScannerApiImpl", " Error al lanzar la cámara: ${e.localizedMessage}")
         callback(Result.failure(e))
     }
 }
@@ -55,7 +55,7 @@ class QRScannerApiImpl : QRScannerApi, PluginRegistry.ActivityResultListener {
             when (resultCode) {
                 Activity.RESULT_OK -> {
                     val scannedData = data?.getStringExtra("SCAN_RESULT")
-                    Log.d("QRScannerApiImpl", "✅ Código escaneado: $scannedData")
+                    Log.d("QRScannerApiImpl", " Código escaneado: $scannedData")
 
                     if (!scannedData.isNullOrEmpty()) {
                         activity?.runOnUiThread {
@@ -63,7 +63,7 @@ class QRScannerApiImpl : QRScannerApi, PluginRegistry.ActivityResultListener {
                         }
                     } else {
                         activity?.runOnUiThread {
-                            scanResultCallback?.invoke(Result.failure(Exception("❌ Código QR vacío.")))
+                            scanResultCallback?.invoke(Result.failure(Exception(" Código QR vacío.")))
                         }
                     }
                 }
@@ -76,9 +76,9 @@ class QRScannerApiImpl : QRScannerApi, PluginRegistry.ActivityResultListener {
                 }
 
                 else -> {
-                    Log.e("QRScannerApiImpl", "❌ Error desconocido en el escaneo.")
+                    Log.e("QRScannerApiImpl", " Error desconocido en el escaneo.")
                     activity?.runOnUiThread {
-                        scanResultCallback?.invoke(Result.failure(Exception("❌ Error desconocido en el escaneo.")))
+                        scanResultCallback?.invoke(Result.failure(Exception(" Error desconocido en el escaneo.")))
                     }
                 }
             }

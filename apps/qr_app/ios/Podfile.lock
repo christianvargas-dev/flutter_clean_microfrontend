@@ -1,0 +1,22 @@
+PODS:
+  - Flutter (1.0.0)
+  - qr_scanner_plugin (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - qr_scanner_plugin (from `.symlinks/plugins/qr_scanner_plugin/ios`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  qr_scanner_plugin:
+    :path: ".symlinks/plugins/qr_scanner_plugin/ios"
+
+SPEC CHECKSUMS:
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  qr_scanner_plugin: b9a36e3facc6a34b603c005360745104a091ed91
+
+PODFILE CHECKSUM: a57f30d18f102dd3ce366b1d62a55ecbef2158e5
+
+COCOAPODS: 1.15.2
