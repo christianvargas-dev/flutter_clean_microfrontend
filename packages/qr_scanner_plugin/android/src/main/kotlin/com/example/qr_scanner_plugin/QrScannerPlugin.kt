@@ -1,16 +1,43 @@
 package com.example.qr_scanner_plugin
 
-import io.flutter.embedding.engine.plugins.FlutterPlugin
-import io.flutter.plugin.common.BinaryMessenger
-import com.example.qr_scanner_plugin.registerQRScannerApi
+import android.util.Log
 
-class QrScannerPlugin: FlutterPlugin {
+import io.flutter.embedding.engine.plugins.FlutterPlugin
+import io.flutter.embedding.engine.plugins.activity.ActivityAware
+import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
+import io.flutter.plugin.common.BinaryMessenger
+
+class QrScannerPlugin: FlutterPlugin, ActivityAware {
+    private var activityBinding: ActivityPluginBinding? = null
+    private var qrScannerApiImpl: QRScannerApiImpl? = null
+
     override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
-        registerQRScannerApi(binding.binaryMessenger) // ✅ Registra la API cuando se carga el plugin
+        qrScannerApiImpl = QRScannerApiImpl() 
+        QRScannerApi.setUp(binding.binaryMessenger, qrScannerApiImpl)
     }
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
-        QRScannerApi.setUp(binding.binaryMessenger, null) // ✅ Limpia la API al cerrar el plugin
+        QRScannerApi.setUp(binding.binaryMessenger, null)
+        qrScannerApiImpl = null
     }
+
+   override fun onAttachedToActivity(binding: ActivityPluginBinding) {
+    activityBinding = binding
+    qrScannerApiImpl?.setActivity(binding.activity) 
+    binding.addActivityResultListener(qrScannerApiImpl!!)
+
+    Log.d("QrScannerPlugin", "✅ onAttachedToActivity llamado. Listener de actividad registrado correctamente.")
 }
 
+    override fun onDetachedFromActivity() {
+        activityBinding = null
+    }
+
+    override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
+        onAttachedToActivity(binding)
+    }
+
+    override fun onDetachedFromActivityForConfigChanges() {
+        onDetachedFromActivity()
+    }
+}
