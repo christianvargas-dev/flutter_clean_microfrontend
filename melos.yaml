@@ -1,0 +1,9 @@
+name: flutter_clean_microfrontend
+packages:
+  - apps/**        # Todas las aplicaciones dentro de /apps
+  - packages/**    # Todos los módulos dentro de /packages
+
+scripts:
+  bootstrap: melos bootstrap
+  analyze: melos exec -- flutter analyze
+  test: melos exec -- flutter test
