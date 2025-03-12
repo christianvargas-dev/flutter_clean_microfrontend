@@ -1,19 +1,25 @@
 PODS:
+  - auth_biometric_plugin (0.0.1):
+    - Flutter
   - Flutter (1.0.0)
   - qr_scanner_plugin (0.0.1):
     - Flutter
 
 DEPENDENCIES:
+  - auth_biometric_plugin (from `.symlinks/plugins/auth_biometric_plugin/ios`)
   - Flutter (from `Flutter`)
   - qr_scanner_plugin (from `.symlinks/plugins/qr_scanner_plugin/ios`)
 
 EXTERNAL SOURCES:
+  auth_biometric_plugin:
+    :path: ".symlinks/plugins/auth_biometric_plugin/ios"
   Flutter:
     :path: Flutter
   qr_scanner_plugin:
     :path: ".symlinks/plugins/qr_scanner_plugin/ios"
 
 SPEC CHECKSUMS:
+  auth_biometric_plugin: a3bbde99b1a923c22f7bc6720f0081f92d867fb9
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   qr_scanner_plugin: b9a36e3facc6a34b603c005360745104a091ed91
 

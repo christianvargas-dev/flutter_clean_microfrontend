@@ -11,7 +11,9 @@ class BiometricResult {
   PigeonOptions(
     dartOut: 'lib/src/pigeon/auth_pigeon.g.dart',
     kotlinOut: 'android/src/main/kotlin/com/example/auth_biometric_plugin/AuthPigeon.kt',
+    swiftOptions: SwiftOptions(isNullSafe: true, public: true),
     swiftOut: 'ios/Classes/AuthPigeon.swift',
+   
    
   ),
 )

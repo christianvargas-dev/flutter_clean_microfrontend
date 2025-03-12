@@ -65,7 +65,7 @@ private func nilOrValue<T>(_ value: Any?) -> T? {
 }
 
 /// Generated class from Pigeon that represents data sent in messages.
-struct BiometricResult {
+public struct BiometricResult {
   var success: Bool
   var message: String? = nil
 
