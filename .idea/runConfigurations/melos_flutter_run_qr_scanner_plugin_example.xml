@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Flutter Run -&gt; 'qr_scanner_plugin_example'" type="FlutterRunConfigurationType" factoryName="Flutter">
+    <option name="filePath" value="$PROJECT_DIR$/packages/qr_scanner_plugin/example/lib/main.dart" />
+    <method v="2" />
+  </configuration>
+</component>

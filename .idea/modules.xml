@@ -2,6 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/packages/auth_biometric_plugin/melos_auth_biometric_plugin.iml" filepath="$PROJECT_DIR$/packages/auth_biometric_plugin/melos_auth_biometric_plugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/packages/auth_biometric_plugin/example/melos_auth_biometric_plugin_example.iml" filepath="$PROJECT_DIR$/packages/auth_biometric_plugin/example/melos_auth_biometric_plugin_example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/apps/qr_app/melos_qr_app.iml" filepath="$PROJECT_DIR$/apps/qr_app/melos_qr_app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/packages/qr_scanner_plugin/melos_qr_scanner_plugin.iml" filepath="$PROJECT_DIR$/packages/qr_scanner_plugin/melos_qr_scanner_plugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/packages/qr_scanner_plugin/example/melos_qr_scanner_plugin_example.iml" filepath="$PROJECT_DIR$/packages/qr_scanner_plugin/example/melos_qr_scanner_plugin_example.iml" />
       <module fileurl="file://$PROJECT_DIR$/melos_flutter_clean_microfrontend.iml" filepath="$PROJECT_DIR$/melos_flutter_clean_microfrontend.iml" />
     </modules>
   </component>

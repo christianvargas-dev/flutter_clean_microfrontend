@@ -1,0 +1,6 @@
+# melos_managed_dependency_overrides: auth_biometric_plugin,qr_scanner_plugin
+dependency_overrides:
+  auth_biometric_plugin:
+    path: ../../packages/auth_biometric_plugin
+  qr_scanner_plugin:
+    path: ../../packages/qr_scanner_plugin
