@@ -148,7 +148,7 @@ flutter run
 
 Este proyecto refleja **buenas prácticas de arquitectura en Flutter**, asegurando modularidad, escalabilidad y pruebas automatizadas. Perfecto para proyectos empresariales y entornos de alto rendimiento. 🚀
 
-📌 **Autor:** [Christian Vargas](www.linkedin.com/in/christian-vargas-11a9a2ba)  
+📌 **Autor:** [Christian Vargas](https://www.linkedin.com/in/christian-vargas-11a9a2ba/)  
 📌 **Repositorio:** [GitHub](https://github.com/christianvargas-dev/flutter_clean_microfrontend)  
 
 ---
