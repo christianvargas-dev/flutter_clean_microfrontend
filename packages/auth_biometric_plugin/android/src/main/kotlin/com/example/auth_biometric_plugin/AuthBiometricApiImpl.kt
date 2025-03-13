@@ -1,7 +1,6 @@
 package com.example.auth_biometric_plugin
 
 import android.app.Activity
-import android.content.Context
 import android.hardware.biometrics.BiometricPrompt
 import android.os.Build
 import android.os.CancellationSignal
@@ -16,27 +15,31 @@ class AuthBiometricApiImpl(private var activity: Activity?) : BiometricAuthApi {
         this.activity = activity
     }
 
-    override fun authenticate(): BiometricResult {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            authenticateWithBiometricPrompt()
+    override fun authenticate(callback: (Result<BiometricResult>) -> Unit) { // ✅ Corregido
+        val currentActivity = activity
+        if (currentActivity == null) {
+            callback(Result.success(BiometricResult(success = false, message = "Actividad no disponible.")))
+            return
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            authenticateWithBiometricPrompt(currentActivity, callback)
         } else {
-            BiometricResult(success = false, message = " Biometric authentication not supported.")
+            callback(Result.success(BiometricResult(success = false, message = "Biometric authentication not supported.")))
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.P)
-    private fun authenticateWithBiometricPrompt(): BiometricResult {
-        val currentActivity = activity ?: return BiometricResult(
-            success = false,
-            message = " Activity no disponible para autenticación biométrica."
-        )
-
+    private fun authenticateWithBiometricPrompt(
+        currentActivity: Activity,
+        callback: (Result<BiometricResult>) -> Unit
+    ) {
         val executor = ContextCompat.getMainExecutor(currentActivity)
-        val biometricPrompt = BiometricPrompt.Builder(currentActivity) 
+        val biometricPrompt = BiometricPrompt.Builder(currentActivity)
             .setTitle("Autenticación Biométrica")
             .setSubtitle("Usa tu huella digital para continuar")
             .setNegativeButton("Cancelar", executor) { _, _ ->
-                BiometricResult(success = false, message = "⚠️ Autenticación cancelada.")
+                callback(Result.success(BiometricResult(success = false, message = "⚠️ Autenticación cancelada.")))
             }
             .build()
 
@@ -44,15 +47,13 @@ class AuthBiometricApiImpl(private var activity: Activity?) : BiometricAuthApi {
         biometricPrompt.authenticate(cancellationSignal!!, executor, object : BiometricPrompt.AuthenticationCallback() {
             override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult?) {
                 super.onAuthenticationSucceeded(result)
-                BiometricResult(success = true, message = " Autenticación exitosa.")
+                callback(Result.success(BiometricResult(success = true, message = "Autenticación exitosa.")))
             }
 
             override fun onAuthenticationFailed() {
                 super.onAuthenticationFailed()
-                BiometricResult(success = false, message = " Autenticación fallida.")
+                callback(Result.success(BiometricResult(success = false, message = "Autenticación fallida.")))
             }
         })
-
-        return BiometricResult(success = true, message = " Autenticando...")
     }
 }

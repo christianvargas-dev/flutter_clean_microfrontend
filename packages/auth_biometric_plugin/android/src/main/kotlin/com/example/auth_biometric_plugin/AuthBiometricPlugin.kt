@@ -23,7 +23,7 @@ class AuthBiometricPlugin : FlutterPlugin, ActivityAware {
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
         activityBinding = binding
         authApiImpl?.setActivity(binding.activity) 
-        Log.d("AuthBiometricPlugin", "✅ onAttachedToActivity llamado.")
+        Log.d("AuthBiometricPlugin", " onAttachedToActivity llamado.")
     }
 
     override fun onDetachedFromActivity() {

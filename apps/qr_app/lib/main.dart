@@ -1,99 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:qr_scanner_plugin/qr_scanner_plugin.dart'; // ✅ Plugin de QR
-import 'package:auth_biometric_plugin/auth_biometric_plugin.dart'; // ✅ Plugin de Biometría
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:qr_app/core/di/injection.dart';
+import 'package:qr_app/core/navigation/app_router.dart';
+import 'package:qr_app/domain/use_cases/auth_use_case.dart';
+import 'package:qr_app/domain/use_cases/get_scan_history_use_case.dart';
+import 'package:qr_app/domain/use_cases/save_scan_use_case.dart';
+import 'package:qr_app/domain/use_cases/scan_qr_use_case.dart';
+import 'package:qr_app/presentation/ui/auth/cubit/auth_cubit.dart';
+import 'package:qr_app/presentation/ui/history/cubit/scan_history_cubit.dart';
+import 'package:qr_app/presentation/ui/pin_auth/cubit/pin_auth_cubit.dart';
+import 'presentation/ui/scan_qr/cubit/scan_qr_cubit.dart';
 
-void main() {
-  runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await configureDependencies();
+
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
-    );
-  }
-}
-
-class HomeScreen extends StatefulWidget {
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  String? scannedCode;
-  String? authStatus;
-
-  /// **Función para escanear QR**
-  Future<void> scanQRCode() async {
-    try {
-      print("Enviando solicitud de escaneo...");
-      final result = await QrScannerPlugin().scanQRCode();
-      
-      setState(() {
-        scannedCode = " Código: ${result.value}";
-      });
-
-      print(scannedCode);
-    } catch (e, stacktrace) {
-      print(" Error al escanear QR: $e");
-      print(stacktrace);
-      setState(() {
-        scannedCode = "Error: $e";
-      });
-    }
-  }
-
-  /// **Función para autenticación biométrica**
-  Future<void> authenticate() async {
-    try {
-      print(" Iniciando autenticación biométrica...");
-      final result = await AuthBiometricPlugin().authenticate();
-      
-      setState(() {
-        authStatus = result.success 
-            ? "Autenticación exitosa" 
-            : " Falló: ${result.message}";
-      });
-
-      print(authStatus);
-    } catch (e, stacktrace) {
-      print(" Error en autenticación: $e");
-      print(stacktrace);
-      setState(() {
-        authStatus = "Error: $e";
-      });
-    }
-  }
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("QR & Biometría")),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-          
-            Text(scannedCode ?? "Escanea un QR", style: TextStyle(fontSize: 16)),
-            Text(authStatus ?? "Autentica con biometría", style: TextStyle(fontSize: 16)),
-            SizedBox(height: 20),
-
-         
-            ElevatedButton(
-              onPressed: scanQRCode,
-              child: Text("📷 Escanear QR"),
-            ),
-            SizedBox(height: 10),
-
-          
-            ElevatedButton(
-              onPressed: authenticate,
-              child: Text("🔐 Autenticación Biométrica"),
-            ),
-          ],
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => ScanQrCubit(
+            scanQrUseCase: getIt<ScanQrUseCase>(),
+          ),
         ),
+        BlocProvider(
+          create: (context) => AuthCubit(
+            authUseCase: getIt<AuthUseCase>(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => ScanHistoryCubit(
+              getScanHistoryUseCase: getIt<GetScanHistoryUseCase>(),
+              saveScanUseCase: getIt<SaveScanUseCase>()),
+        ),
+        BlocProvider(
+          create: (context) => PinAuthCubit(
+              ),
+        ),
+      ],
+      child: MaterialApp.router(
+        title: 'QR App',
+        routerConfig: appRouter,
       ),
     );
   }

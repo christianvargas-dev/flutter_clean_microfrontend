@@ -124,9 +124,10 @@ class AuthPigeonPigeonCodec: FlutterStandardMessageCodec, @unchecked Sendable {
   static let shared = AuthPigeonPigeonCodec(readerWriter: AuthPigeonPigeonCodecReaderWriter())
 }
 
+
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
 protocol BiometricAuthApi {
-  func authenticate() throws -> BiometricResult
+  func authenticate(completion: @escaping (Result<BiometricResult, Error>) -> Void)
 }
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
@@ -138,11 +139,13 @@ class BiometricAuthApiSetup {
     let authenticateChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.auth_biometric_plugin.BiometricAuthApi.authenticate\(channelSuffix)", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       authenticateChannel.setMessageHandler { _, reply in
-        do {
-          let result = try api.authenticate()
-          reply(wrapResult(result))
-        } catch {
-          reply(wrapError(error))
+        api.authenticate { result in
+          switch result {
+          case .success(let res):
+            reply(wrapResult(res))
+          case .failure(let error):
+            reply(wrapError(error))
+          }
         }
       }
     } else {

@@ -87,9 +87,10 @@ private open class AuthPigeonPigeonCodec : StandardMessageCodec() {
   }
 }
 
+
 /** Generated interface from Pigeon that represents a handler of messages from Flutter. */
 interface BiometricAuthApi {
-  fun authenticate(): BiometricResult
+  fun authenticate(callback: (Result<BiometricResult>) -> Unit)
 
   companion object {
     /** The codec used by BiometricAuthApi. */
@@ -104,12 +105,15 @@ interface BiometricAuthApi {
         val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.auth_biometric_plugin.BiometricAuthApi.authenticate$separatedMessageChannelSuffix", codec)
         if (api != null) {
           channel.setMessageHandler { _, reply ->
-            val wrapped: List<Any?> = try {
-              listOf(api.authenticate())
-            } catch (exception: Throwable) {
-              wrapError(exception)
+            api.authenticate{ result: Result<BiometricResult> ->
+              val error = result.exceptionOrNull()
+              if (error != null) {
+                reply.reply(wrapError(error))
+              } else {
+                val data = result.getOrNull()
+                reply.reply(wrapResult(data))
+              }
             }
-            reply.reply(wrapped)
           }
         } else {
           channel.setMessageHandler(null)
