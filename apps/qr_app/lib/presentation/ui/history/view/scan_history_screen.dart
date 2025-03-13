@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:qr_app/presentation/ui/history/cubit/scan_history_cubit.dart';
+import 'package:qr_app/presentation/ui/history/cubit/scan_history_state.dart';
 
 class ScanHistoryScreen extends StatelessWidget {
   const ScanHistoryScreen({super.key});

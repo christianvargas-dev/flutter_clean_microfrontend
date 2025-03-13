@@ -2,8 +2,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_app/domain/entities/scan_history.dart';
 import 'package:qr_app/domain/use_cases/get_scan_history_use_case.dart';
 import 'package:qr_app/domain/use_cases/save_scan_use_case.dart';
+import 'package:qr_app/presentation/ui/history/cubit/scan_history_state.dart';
 
-part 'scan_history_state.dart';
+
 
 class ScanHistoryCubit extends Cubit<ScanHistoryState> {
   final GetScanHistoryUseCase getScanHistoryUseCase;
